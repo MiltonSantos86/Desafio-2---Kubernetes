@@ -33,9 +33,9 @@ jobs:   #Quais as sequencias de etapas do workflow - Foram criados os dois jobs 
     runs-on: ubuntu-latest
     needs: [ci]   #Configura o Workflow para informar que o job de CD depente da conclusão do job de CI
     permissions:
-      id-token: write
-      contents: read
-      actions: read    
+      id-token: write  #Copiar essas informações da Action "Deploy to Kubernetes cluster Azure" que foi configurada mais abaixo
+      contents: read  #Copiar essas informações da Action "Deploy to Kubernetes cluster Azure" que foi configurada mais abaixo
+      actions: read    #Copiar essas informações da Action "Deploy to Kubernetes cluster Azure" que foi configurada mais abaixo
     steps:
       - name: Obter o código do projeto #Copiado da pipeline de CI
         uses: actions/checkout@v4
@@ -51,9 +51,9 @@ jobs:   #Quais as sequencias de etapas do workflow - Foram criados os dois jobs 
         run: aws eks update-kubeconfig --name eks-aula-devopscloud # Inserir o mesmo comando utilizado para configurar o cluster EKS
 
       - name: Deploy dos manifestos no Kubernetes
-        uses: Azure/k8s-deploy@v5
-        with:
+        uses: Azure/k8s-deploy@v5 # Utilizar Action "Deploy to Kubernetes cluster - Por ser da Azure, exige o kubectl configurado"
+        with:  #O nome da imagem precisar ser identico ao do arquivo Deployment
            manifests: |
             ./k8s/deployment.yaml
            images: |
-              miltonsantos86/fake-shop:v${{ github.run_number }}
+              miltonsantos86/fake-shop2:v${{ github.run_number }}
