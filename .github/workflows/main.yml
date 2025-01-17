@@ -1,20 +1,20 @@
-name: CI-CD # Nome do pipeline - Arquivo único com CI e com CD
+name: CI-CD   # Nome do pipeline - Arquivo único com CI e com CD
 
-on: #Evento workflow que vai ser disparado
-  push: #Primeiro evento
+on:   #Evento workflow que vai ser disparado
+  push:   #Primeiro evento
     branches: ["main"]
-  workflow_dispatch: #Permite executar pipeline de forma manual
-jobs:  #Quais as sequencias de etapas do workflow - Foram criados os dois jobs no mesmo arquivo.
+  workflow_dispatch:  #Permite executar pipeline de forma manual
+jobs:   #Quais as sequencias de etapas do workflow - Foram criados os dois jobs no mesmo arquivo.
   ci:
-    runs-on: ubuntu-latest  #Qual ambiente será disparado - Pode ser outras distribuições
-    steps: #Passos de execução
-      - name: Obter o código do projeto #Autenticar no docker hub
-        uses: actions/checkout@v4
+    runs-on: ubuntu-latest    #Qual ambiente/agent será disparado - Pode ser outras distribuições
+    steps:  #Passos de execução
+      - name: Obter o código do projeto   #Autenticar no docker hub
+        uses: actions/checkout@v4  #Actions (Pesquisar a extensão chamada "Checkout" no VS Code ou Market Place GitHub)
 
       - name: Autenticar no Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+        uses: docker/login-action@v3  #Action para logar no Docker Hub (Docker Login)
+        with:  
+          username: ${{ secrets.DOCKERHUB_USERNAME }} #Variável para armazenar autenticação - Inserir as informações no Git Hub em: Setting > Secret and variables > Actions
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Construção e envio da Imagem Docker
@@ -29,7 +29,7 @@ jobs:  #Quais as sequencias de etapas do workflow - Foram criados os dois jobs n
 
   cd:
     runs-on: ubuntu-latest
-    needs: [ci] # Configura o Workflow para informar que o job de CD depente da conclusão do job de CI
+    needs: [ci]   #Configura o Workflow para informar que o job de CD depente da conclusão do job de CI
     permissions:
       id-token: write
       contents: read
