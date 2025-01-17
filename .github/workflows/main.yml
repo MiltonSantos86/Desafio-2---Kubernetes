@@ -1,3 +1,5 @@
+#Criação de Pipeline CI/CD
+
 name: CI-CD   # Nome do pipeline - Arquivo único com CI e com CD
 
 on:   #Evento workflow que vai ser disparado
@@ -18,14 +20,14 @@ jobs:   #Quais as sequencias de etapas do workflow - Foram criados os dois jobs 
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Construção e envio da Imagem Docker
-        uses: docker/build-push-action@v6
-        with:
-          context: ./src
+        uses: docker/build-push-action@v6  # Plugin Actions: "Build and Push Docker Images"
+        with:  #Pesquisar na action do git hub Build and Push Docker Images
+          context: ./src #Diretório do Docker File
           push: true
-          file: ./src/Dockerfile
-          tags: |
-            miltonsantos86/fake-shop:latest
-            miltonsantos86/fake-shop:v${{ github.run_number }}
+          file: ./src/Dockerfile  #Clicar com o botão direiro no Dockerfile > Copiar caminho relativo.
+          tags: |  # Pipe para colocar duas imagens - Por boas práticas usar a latest - Na segunda imagem, "fake-shop:v${{" informa qualquer versão
+            miltonsantos86/fake-shop2:latest
+            miltonsantos86/fake-shop2:v${{ github.run_number }}
 
   cd:
     runs-on: ubuntu-latest
@@ -35,13 +37,13 @@ jobs:   #Quais as sequencias de etapas do workflow - Foram criados os dois jobs 
       contents: read
       actions: read    
     steps:
-      - name: Obter o código do projeto
+      - name: Obter o código do projeto #Copiado da pipeline de CI
         uses: actions/checkout@v4
        
       - name: autenticar na AWS
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v4 #Actions - Configure AWS Credentials Git Hub
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }} #Os mesmos dados de autenticação autenticação CLI da AWS
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
