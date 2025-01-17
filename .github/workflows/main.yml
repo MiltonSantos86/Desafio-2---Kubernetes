@@ -48,7 +48,7 @@ jobs:   #Quais as sequencias de etapas do workflow - Foram criados os dois jobs 
           aws-region: us-east-1
 
       - name: Configurar o kubectl
-        run: aws eks update-kubeconfig --name eks-aula-devopscloud
+        run: aws eks update-kubeconfig --name eks-aula-devopscloud # Inserir o mesmo comando utilizado para configurar o cluster EKS
 
       - name: Deploy dos manifestos no Kubernetes
         uses: Azure/k8s-deploy@v5
