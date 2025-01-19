@@ -52,7 +52,7 @@ jobs:   #Quais as sequencias de etapas do workflow - Foram criados os dois jobs 
 
       - name: Deploy dos manifestos no Kubernetes
         uses: Azure/k8s-deploy@v5 # Utilizar Action "Deploy to Kubernetes cluster - Por ser da Azure, exige o kubectl configurado"
-        with:  #O nome da imagem precisar ser identico ao do arquivo Deployment
+        with:  #O nome da imagem precisar ser identico ao do arquivo Deployment.
            manifests: |
             ./k8s/deployment.yaml
            images: |
